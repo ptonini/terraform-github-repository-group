@@ -1,11 +1,6 @@
-locals {
-  base_query = "org:${var.owner} archived:false ${var.extra_query_params}"
-  query      = var.language == null ? local.base_query : "${local.base_query} language:${var.language}"
-}
-
 data "github_repositories" "this" {
   for_each = toset(var.topics)
-  query    = "${each.value} in:topics ${local.base_query}"
+  query    = "${each.value} in:topics org:${var.owner} archived:false ${var.extra_query_params}"
 }
 
 data "github_repository" "this" {
